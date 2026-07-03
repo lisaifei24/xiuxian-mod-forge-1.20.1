@@ -21,7 +21,7 @@ public class CultivationCapabilityAttacher {
     public static void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
         if (!(event.getObject() instanceof Player)) return;
 
-        ResourceLocation capId = new ResourceLocation(XiuXianMod.MOD_ID, "cultivation");
+        ResourceLocation capId = ResourceLocation.parse(XiuXianMod.MOD_ID);
         if (!event.getCapabilities().containsKey(capId)) {
             event.addCapability(capId, new CultivationStorage(new Cultivation()));
         }

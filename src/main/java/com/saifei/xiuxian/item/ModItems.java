@@ -36,7 +36,11 @@ public class ModItems {
     public static final RegistryObject<Item> SUPREME_LINGSHI_ORE_ITEM = ITEMS.register("supreme_lingshi_ore",
             () -> new BlockItem(ModBlocks.SUPREME_LINGSHI_ORE.get(), new Item.Properties()));
 
-    // --- 蒲团 ---
+    // --- 蒲团的 ---
     public static final RegistryObject<Item> MEDITATION_MAT_ITEM = ITEMS.register("meditation_mat",
             () -> new BlockItem(ModBlocks.MEDITATION_MAT.get(), new Item.Properties()));
+
+    // --- 炼化炉的 ---
+    public static final RegistryObject<Item> REFINING_FURNACE_ITEM = ITEMS.register("refining_furnace",
+            () -> new BlockItem(ModBlocks.REFINING_FURNACE.get(), new Item.Properties()));
 }

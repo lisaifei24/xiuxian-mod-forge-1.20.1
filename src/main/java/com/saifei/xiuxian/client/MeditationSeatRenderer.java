@@ -16,7 +16,7 @@ public class MeditationSeatRenderer extends EntityRenderer<MeditationSeatEntity>
     public ResourceLocation getTextureLocation(MeditationSeatEntity entity) {
         // 返回 null 有可能在某些渲染循环里引发空指针，
         // 这里返回一个 Minecraft 里绝对存在的贴图（比如空气的贴图）来彻底防止崩溃
-        return new ResourceLocation("minecraft", "textures/block/air.png");
+        return ResourceLocation.parse("minecraft:textures/block/air.png");
     }
 
     @Override

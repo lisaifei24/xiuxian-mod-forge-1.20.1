@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:cobblestone"
+    },
+    "X": {
+      "item": "xiuxian:mid_lingshi"
+    }
+  },
+  "result": {
+    "item": "xiuxian:refining_furnace"
+  }
+}

@@ -14,8 +14,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
@@ -23,7 +25,7 @@ import net.minecraftforge.network.PacketDistributor;
 import java.text.DecimalFormat;
 import java.util.UUID;
 
-@Mod.EventBusSubscriber(modid = XiuXianMod.MOD_ID)
+@Mod.EventBusSubscriber(modid = XiuXianMod.MOD_ID , bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
 
     private static final UUID ATTACK_UUID = UUID.fromString("1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d");
@@ -193,5 +195,16 @@ public class ModEvents {
             }
         }
         return false;
+    }
+
+    // ========== 流浪商人：1:100兑换 ==========
+    @SubscribeEvent
+    public static void onWanderingTraderTrades(WandererTradesEvent event) {
+        // 下品 -> 中品 (1:100 兑换)
+        event.getGenericTrades().add((trader, rand) -> new MerchantOffer(
+                new ItemStack(ModItems.LOW_LINGSHI.get(), 100), // 花费100下品
+                new ItemStack(ModItems.MID_LINGSHI.get(), 1),    // 得到1中品
+                12, 5, 0.05f // 使用12次，给5经验
+        ));
     }
 }
