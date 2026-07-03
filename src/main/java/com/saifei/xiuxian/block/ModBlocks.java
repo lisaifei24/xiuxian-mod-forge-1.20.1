@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import com.saifei.xiuxian.block.MeditationMatBlock;
 
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, XiuXianMod.MOD_ID);
@@ -19,4 +20,6 @@ public class ModBlocks {
             () -> new Block(BlockBehaviour.Properties.of().strength(25.0f, 1200.0f).requiresCorrectToolForDrops().sound(Blocks.STONE.defaultBlockState().getSoundType())));
     public static final RegistryObject<Block> SUPREME_LINGSHI_ORE = BLOCKS.register("supreme_lingshi_ore",
             () -> new Block(BlockBehaviour.Properties.of().strength(40.0f, 1200.0f).requiresCorrectToolForDrops().sound(Blocks.STONE.defaultBlockState().getSoundType())));
+
+    public static final RegistryObject<Block> MEDITATION_MAT = BLOCKS.register("meditation_mat", MeditationMatBlock::new);
 }

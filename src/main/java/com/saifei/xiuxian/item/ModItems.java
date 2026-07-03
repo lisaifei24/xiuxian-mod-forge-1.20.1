@@ -35,4 +35,8 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.HIGH_LINGSHI_ORE.get(), new Item.Properties()));
     public static final RegistryObject<Item> SUPREME_LINGSHI_ORE_ITEM = ITEMS.register("supreme_lingshi_ore",
             () -> new BlockItem(ModBlocks.SUPREME_LINGSHI_ORE.get(), new Item.Properties()));
+
+    // --- 蒲团 ---
+    public static final RegistryObject<Item> MEDITATION_MAT_ITEM = ITEMS.register("meditation_mat",
+            () -> new BlockItem(ModBlocks.MEDITATION_MAT.get(), new Item.Properties()));
 }

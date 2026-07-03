@@ -1,0 +1,8 @@
+{
+  "parent": "block/slab",
+  "textures": {
+    "bottom": "xiuxian:block/meditation_mat",
+    "top": "xiuxian:block/meditation_mat",
+    "side": "xiuxian:block/meditation_mat_side"
+  }
+}
