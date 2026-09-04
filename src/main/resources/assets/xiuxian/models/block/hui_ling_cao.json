@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "xiuxian:block/hui_ling_cao"
+  }
+}

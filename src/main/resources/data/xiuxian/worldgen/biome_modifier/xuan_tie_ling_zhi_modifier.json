@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": ["minecraft:dripstone_caves", "minecraft:lush_caves", "minecraft:deep_dark"],
+  "features": "xiuxian:xuan_tie_ling_zhi",
+  "step": "vegetal_decoration"
+}

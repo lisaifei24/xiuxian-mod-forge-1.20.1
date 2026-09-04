@@ -63,6 +63,16 @@ public class XiuXianMod {
                         output.accept(ModBlocks.MEDITATION_MAT.get());
                         output.accept(ModBlocks.REFINING_FURNACE.get());
 
+                        //灵草 & 仙草（v1.4.1）
+                        output.accept(ModItems.HUI_LING_CAO.get());
+                        output.accept(ModItems.NING_SHEN_HUA.get());
+                        output.accept(ModItems.CHI_YAN_GUO.get());
+                        output.accept(ModItems.TIAN_SHAN_XUE_LIAN.get());
+                        output.accept(ModItems.JIE_DU_TENG.get());
+                        output.accept(ModItems.XUAN_TIE_LING_ZHI.get());
+                        output.accept(ModItems.LONG_XUE_CAO.get());
+                        output.accept(ModItems.JIU_ZHUAN_HUAN_HUN_CAO.get());
+
                         //突破丹药
                         output.accept(ModItems.JUNQI_PILL.get());
                         output.accept(ModItems.ZHUJI_PILL.get());

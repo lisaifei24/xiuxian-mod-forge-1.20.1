@@ -119,6 +119,14 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
                     case 9 -> level.random.nextInt(161); // 大乘丹 0-160
                     case 10 -> level.random.nextInt(201); // 渡劫丹 0-200
                     case 11 -> level.random.nextInt(251); // 真仙丹 0-250
+                    case 12 -> level.random.nextInt(4);   // 回灵草丹 0-3
+                    case 13 -> level.random.nextInt(4);   // 凝神花丹 0-3
+                    case 14 -> level.random.nextInt(6);   // 赤焰果丹 0-5
+                    case 15 -> level.random.nextInt(6);   // 天山雪莲丹 0-5
+                    case 16 -> level.random.nextInt(6);   // 解毒藤丹 0-5
+                    case 17 -> level.random.nextInt(10);  // 玄铁灵芝丹 0-9
+                    case 18 -> level.random.nextInt(10);  // 龙血草丹 0-9
+                    case 19 -> level.random.nextInt(15);  // 还魂草丹 0-14
                     default -> 0;
                 };
                 // 防止抽到0导致玩家觉得"没扣蓝"，强制最低消耗1点
@@ -181,6 +189,24 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
         if (supremeCount >= 5 && countOf(ModItems.SUPREME_LINGSHI_ORE_ITEM.get()) >= 3) return 10;
         // 真仙丹：极品灵石×6 + 极品灵石矿×3
         if (supremeCount >= 6 && countOf(ModItems.SUPREME_LINGSHI_ORE_ITEM.get()) >= 3) return 11;
+
+        // ✅ v1.4.1：灵草药剂配方（灵草×3 + 对应品级灵石矿×1 = 对应丹药），优先级在灵石升级之上
+        // 回灵草×3 + 下品矿×1 = 聚气丹
+        if (countOf(ModItems.HUI_LING_CAO.get()) >= 3 && countOf(ModItems.LOW_LINGSHI_ORE_ITEM.get()) >= 1) return 12;
+        // 凝神花×3 + 下品矿×1 = 聚气丹
+        if (countOf(ModItems.NING_SHEN_HUA.get()) >= 3 && countOf(ModItems.LOW_LINGSHI_ORE_ITEM.get()) >= 1) return 13;
+        // 赤焰果×3 + 中品矿×1 = 筑基丹
+        if (countOf(ModItems.CHI_YAN_GUO.get()) >= 3 && countOf(ModItems.MID_LINGSHI_ORE_ITEM.get()) >= 1) return 14;
+        // 天山雪莲×3 + 中品矿×1 = 筑基丹
+        if (countOf(ModItems.TIAN_SHAN_XUE_LIAN.get()) >= 3 && countOf(ModItems.MID_LINGSHI_ORE_ITEM.get()) >= 1) return 15;
+        // 解毒藤×3 + 中品矿×1 = 筑基丹
+        if (countOf(ModItems.JIE_DU_TENG.get()) >= 3 && countOf(ModItems.MID_LINGSHI_ORE_ITEM.get()) >= 1) return 16;
+        // 玄铁灵芝×3 + 上品矿×1 = 结丹丹
+        if (countOf(ModItems.XUAN_TIE_LING_ZHI.get()) >= 3 && countOf(ModItems.HIGH_LINGSHI_ORE_ITEM.get()) >= 1) return 17;
+        // 龙血草×3 + 上品矿×1 = 结丹丹
+        if (countOf(ModItems.LONG_XUE_CAO.get()) >= 3 && countOf(ModItems.HIGH_LINGSHI_ORE_ITEM.get()) >= 1) return 18;
+        // 九转还魂草×3 + 极品矿×1 = 元婴丹
+        if (countOf(ModItems.JIU_ZHUAN_HUAN_HUN_CAO.get()) >= 3 && countOf(ModItems.SUPREME_LINGSHI_ORE_ITEM.get()) >= 1) return 19;
 
         // 灵石升级：5:1（下→中→上→极）
         if (lowCount >= 5) return 0; // 下品 炼 中品
@@ -306,6 +332,62 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
                 if (!consumeItems(ModItems.SUPREME_LINGSHI.get(), 6)) return;
                 if (!consumeItems(ModItems.SUPREME_LINGSHI_ORE_ITEM.get(), 3)) return;
                 addResult(new ItemStack(ModItems.ZHENXIAN_PILL.get()));
+                setChanged();
+                return;
+            }
+            case 12 -> { // 回灵草×3 + 下品矿×1 = 聚气丹
+                if (!consumeItems(ModItems.HUI_LING_CAO.get(), 3)) return;
+                if (!consumeItems(ModItems.LOW_LINGSHI_ORE_ITEM.get(), 1)) return;
+                addResult(new ItemStack(ModItems.JUNQI_PILL.get()));
+                setChanged();
+                return;
+            }
+            case 13 -> { // 凝神花×3 + 下品矿×1 = 聚气丹
+                if (!consumeItems(ModItems.NING_SHEN_HUA.get(), 3)) return;
+                if (!consumeItems(ModItems.LOW_LINGSHI_ORE_ITEM.get(), 1)) return;
+                addResult(new ItemStack(ModItems.JUNQI_PILL.get()));
+                setChanged();
+                return;
+            }
+            case 14 -> { // 赤焰果×3 + 中品矿×1 = 筑基丹
+                if (!consumeItems(ModItems.CHI_YAN_GUO.get(), 3)) return;
+                if (!consumeItems(ModItems.MID_LINGSHI_ORE_ITEM.get(), 1)) return;
+                addResult(new ItemStack(ModItems.ZHUJI_PILL.get()));
+                setChanged();
+                return;
+            }
+            case 15 -> { // 天山雪莲×3 + 中品矿×1 = 筑基丹
+                if (!consumeItems(ModItems.TIAN_SHAN_XUE_LIAN.get(), 3)) return;
+                if (!consumeItems(ModItems.MID_LINGSHI_ORE_ITEM.get(), 1)) return;
+                addResult(new ItemStack(ModItems.ZHUJI_PILL.get()));
+                setChanged();
+                return;
+            }
+            case 16 -> { // 解毒藤×3 + 中品矿×1 = 筑基丹
+                if (!consumeItems(ModItems.JIE_DU_TENG.get(), 3)) return;
+                if (!consumeItems(ModItems.MID_LINGSHI_ORE_ITEM.get(), 1)) return;
+                addResult(new ItemStack(ModItems.ZHUJI_PILL.get()));
+                setChanged();
+                return;
+            }
+            case 17 -> { // 玄铁灵芝×3 + 上品矿×1 = 结丹丹
+                if (!consumeItems(ModItems.XUAN_TIE_LING_ZHI.get(), 3)) return;
+                if (!consumeItems(ModItems.HIGH_LINGSHI_ORE_ITEM.get(), 1)) return;
+                addResult(new ItemStack(ModItems.JIEDAN_PILL.get()));
+                setChanged();
+                return;
+            }
+            case 18 -> { // 龙血草×3 + 上品矿×1 = 结丹丹
+                if (!consumeItems(ModItems.LONG_XUE_CAO.get(), 3)) return;
+                if (!consumeItems(ModItems.HIGH_LINGSHI_ORE_ITEM.get(), 1)) return;
+                addResult(new ItemStack(ModItems.JIEDAN_PILL.get()));
+                setChanged();
+                return;
+            }
+            case 19 -> { // 九转还魂草×3 + 极品矿×1 = 元婴丹
+                if (!consumeItems(ModItems.JIU_ZHUAN_HUAN_HUN_CAO.get(), 3)) return;
+                if (!consumeItems(ModItems.SUPREME_LINGSHI_ORE_ITEM.get(), 1)) return;
+                addResult(new ItemStack(ModItems.YUANYING_PILL.get()));
                 setChanged();
                 return;
             }

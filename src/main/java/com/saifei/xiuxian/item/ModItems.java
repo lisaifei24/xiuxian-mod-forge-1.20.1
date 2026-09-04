@@ -46,6 +46,40 @@ public class ModItems {
             () -> new TooltipBlockItem(ModBlocks.REFINING_FURNACE.get(), new Item.Properties(),
                     "用于炼化合成：5:1 灵石升阶（下→中→上→极）；灵石+灵石矿可炼制突破丹药"));
 
+    // ============ v1.4.1：灵草 / 仙草方块物品（8 种，均可放置/采集掉落） ============
+    // 回灵草：下品·恢复灵力
+    public static final RegistryObject<Item> HUI_LING_CAO = ITEMS.register("hui_ling_cao",
+            () -> new TooltipBlockItem(ModBlocks.HUI_LING_CAO.get(), new Item.Properties(),
+                    "下品灵草：可入药炼丹，恢复灵力；平原/森林草地生成"));
+    // 凝神花：下品·清心凝神
+    public static final RegistryObject<Item> NING_SHEN_HUA = ITEMS.register("ning_shen_hua",
+            () -> new TooltipBlockItem(ModBlocks.NING_SHEN_HUA.get(), new Item.Properties(),
+                    "下品灵草：清心凝神，炼丹辅材；森林/繁花森林生成"));
+    // 赤焰果：中品·火系
+    public static final RegistryObject<Item> CHI_YAN_GUO = ITEMS.register("chi_yan_guo",
+            () -> new TooltipBlockItem(ModBlocks.CHI_YAN_GUO.get(), new Item.Properties(),
+                    "中品灵草：蕴含火系灵力，可炼制筑基丹；沙漠/恶地/熔岩湖畔生成"));
+    // 天山雪莲：中品·冰系
+    public static final RegistryObject<Item> TIAN_SHAN_XUE_LIAN = ITEMS.register("tian_shan_xue_lian",
+            () -> new TooltipBlockItem(ModBlocks.TIAN_SHAN_XUE_LIAN.get(), new Item.Properties(),
+                    "中品灵草：冰系仙草，可炼制筑基丹；雪山峭壁/雪原/山峰生成"));
+    // 解毒藤：中品·解毒
+    public static final RegistryObject<Item> JIE_DU_TENG = ITEMS.register("jie_du_teng",
+            () -> new TooltipBlockItem(ModBlocks.JIE_DU_TENG.get(), new Item.Properties(),
+                    "中品灵草：可解百毒，可炼制筑基丹；沼泽生成"));
+    // 玄铁灵芝：上品·疗伤
+    public static final RegistryObject<Item> XUAN_TIE_LING_ZHI = ITEMS.register("xuan_tie_ling_zhi",
+            () -> new TooltipBlockItem(ModBlocks.XUAN_TIE_LING_ZHI.get(), new Item.Properties(),
+                    "上品灵草：蕴含精铁精华可疗伤，可炼制结丹丹；深层洞穴 y<0 生成"));
+    // 龙血草：上品·续命
+    public static final RegistryObject<Item> LONG_XUE_CAO = ITEMS.register("long_xue_cao",
+            () -> new TooltipBlockItem(ModBlocks.LONG_XUE_CAO.get(), new Item.Properties(),
+                    "上品灵草：血龙之精所化可续命，可炼制结丹丹；海洋海底生成"));
+    // 九转还魂草：极品·复活/突破
+    public static final RegistryObject<Item> JIU_ZHUAN_HUAN_HUN_CAO = ITEMS.register("jiu_zhuan_huan_hun_cao",
+            () -> new TooltipBlockItem(ModBlocks.JIU_ZHUAN_HUAN_HUN_CAO.get(), new Item.Properties(),
+                    "极品仙草：起死回生、助突破，可炼制元婴丹；高山之巅极小概率出现"));
+
     // ==================== 第二阶段：突破丹药 ====================
     // 聚气丹：凡人 → 炼气，食用恢复 20~40 灵力，突破成功率 +30%
     public static final RegistryObject<Item> JUNQI_PILL = ITEMS.register("junqi_pill",

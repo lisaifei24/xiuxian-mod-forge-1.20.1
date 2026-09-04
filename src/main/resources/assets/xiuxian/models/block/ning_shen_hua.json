@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "xiuxian:block/ning_shen_hua"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": ["minecraft:swamp", "minecraft:mangrove_swamp"],
+  "features": "xiuxian:jie_du_teng",
+  "step": "vegetal_decoration"
+}

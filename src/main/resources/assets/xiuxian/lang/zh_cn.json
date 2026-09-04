@@ -24,5 +24,21 @@
   "entity.xiuxian.fireball_projectile": "灵力火球",
   "key.categories.xiuxian": "修仙模组",
   "key.xiuxian.cast_skill": "释放功法（R）",
-  "creativetab.xiuxian_tab": "修仙模组"
+  "creativetab.xiuxian_tab": "修仙模组",
+  "block.xiuxian.hui_ling_cao": "回灵草",
+  "block.xiuxian.ning_shen_hua": "凝神花",
+  "block.xiuxian.chi_yan_guo": "赤焰果",
+  "block.xiuxian.tian_shan_xue_lian": "天山雪莲",
+  "block.xiuxian.jie_du_teng": "解毒藤",
+  "block.xiuxian.xuan_tie_ling_zhi": "玄铁灵芝",
+  "block.xiuxian.long_xue_cao": "龙血草",
+  "block.xiuxian.jiu_zhuan_huan_hun_cao": "九转还魂草",
+  "item.xiuxian.hui_ling_cao": "回灵草",
+  "item.xiuxian.ning_shen_hua": "凝神花",
+  "item.xiuxian.chi_yan_guo": "赤焰果",
+  "item.xiuxian.tian_shan_xue_lian": "天山雪莲",
+  "item.xiuxian.jie_du_teng": "解毒藤",
+  "item.xiuxian.xuan_tie_ling_zhi": "玄铁灵芝",
+  "item.xiuxian.long_xue_cao": "龙血草",
+  "item.xiuxian.jiu_zhuan_huan_hun_cao": "九转还魂草"
 }

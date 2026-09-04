@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "xiuxian:block/chi_yan_guo"
+  }
+}

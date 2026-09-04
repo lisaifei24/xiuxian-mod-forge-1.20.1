@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "xiuxian:block/jie_du_teng"
+  }
+}

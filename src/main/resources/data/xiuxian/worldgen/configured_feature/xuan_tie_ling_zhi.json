@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:random_patch",
+  "config": {
+    "tries": 6,
+    "xz_spread": 5,
+    "y_spread": 3,
+    "feature": {
+      "type": "minecraft:simple_block",
+      "config": {
+        "to_place": {
+          "Name": "xiuxian:xuan_tie_ling_zhi"
+        },
+        "placed_on": ["minecraft:stone", "minecraft:deepslate", "minecraft:tuff", "minecraft:dripstone_block", "minecraft:moss_block", "minecraft:sculk"]
+      }
+    }
+  }
+}

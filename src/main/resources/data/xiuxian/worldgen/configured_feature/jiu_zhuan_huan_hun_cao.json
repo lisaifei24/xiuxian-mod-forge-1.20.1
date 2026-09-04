@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:random_patch",
+  "config": {
+    "tries": 1,
+    "xz_spread": 3,
+    "y_spread": 1,
+    "feature": {
+      "type": "minecraft:simple_block",
+      "config": {
+        "to_place": {
+          "Name": "xiuxian:jiu_zhuan_huan_hun_cao"
+        },
+        "placed_on": ["minecraft:stone", "minecraft:snow_block"]
+      }
+    }
+  }
+}

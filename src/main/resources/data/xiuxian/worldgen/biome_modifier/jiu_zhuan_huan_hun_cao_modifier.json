@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": ["minecraft:jagged_peaks", "minecraft:stony_peaks"],
+  "features": "xiuxian:jiu_zhuan_huan_hun_cao",
+  "step": "vegetal_decoration"
+}

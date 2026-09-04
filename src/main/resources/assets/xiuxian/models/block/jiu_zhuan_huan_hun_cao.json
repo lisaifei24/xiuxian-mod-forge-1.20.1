@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "xiuxian:block/jiu_zhuan_huan_hun_cao"
+  }
+}

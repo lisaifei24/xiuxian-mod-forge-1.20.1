@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": ["minecraft:plains", "minecraft:sunflower_plains", "minecraft:forest", "minecraft:meadow"],
+  "features": "xiuxian:hui_ling_cao",
+  "step": "vegetal_decoration"
+}

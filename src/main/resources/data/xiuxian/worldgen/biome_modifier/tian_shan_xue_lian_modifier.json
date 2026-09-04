@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": ["minecraft:snowy_plains", "minecraft:snowy_taiga", "minecraft:snowy_slopes", "minecraft:ice_spikes", "minecraft:jagged_peaks", "minecraft:stony_peaks"],
+  "features": "xiuxian:tian_shan_xue_lian",
+  "step": "vegetal_decoration"
+}
