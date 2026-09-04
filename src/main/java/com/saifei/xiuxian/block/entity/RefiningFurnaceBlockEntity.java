@@ -113,6 +113,12 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
                     case 3 -> level.random.nextInt(4);   // 聚气丹 0-3
                     case 4 -> level.random.nextInt(11);  // 筑基丹 0-10
                     case 5 -> level.random.nextInt(21);  // 结丹丹 0-20
+                    case 6 -> level.random.nextInt(41);  // 元婴丹 0-40
+                    case 7 -> level.random.nextInt(81);  // 化神丹 0-80
+                    case 8 -> level.random.nextInt(121); // 合体丹 0-120
+                    case 9 -> level.random.nextInt(161); // 大乘丹 0-160
+                    case 10 -> level.random.nextInt(201); // 渡劫丹 0-200
+                    case 11 -> level.random.nextInt(251); // 真仙丹 0-250
                     default -> 0;
                 };
                 // 防止抽到0导致玩家觉得"没扣蓝"，强制最低消耗1点
@@ -140,7 +146,7 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
     }
 
     private int getCurrentRefiningType() {
-        int lowCount = 0, midCount = 0, highCount = 0;
+        int lowCount = 0, midCount = 0, highCount = 0, supremeCount = 0;
         for (ItemStack stack : inputItems) {
             if (!stack.isEmpty()) {
                 if (stack.getItem() == ModItems.LOW_LINGSHI.get()) {
@@ -149,21 +155,37 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
                     midCount += stack.getCount();
                 } else if (stack.getItem() == ModItems.HIGH_LINGSHI.get()) {
                     highCount += stack.getCount();
+                } else if (stack.getItem() == ModItems.SUPREME_LINGSHI.get()) {
+                    supremeCount += stack.getCount();
                 }
             }
         }
-        // 灵石升级：5:1（下→中→上→极）
-        if (lowCount >= 5) return 0; // 下品 炼 中品
-        if (midCount >= 5) return 1; // 中品 炼 上品
-        if (highCount >= 5) return 2;// 上品 炼 极品
 
-        // 第二阶段：炼丹配方（灵石 + 灵石矿材料 = 突破丹药）
+        // ✅【修复】丹药配方优先判断，避免"5下品灵石+1矿"被低品灵石升级(return 0)抢先拦截
+        // 炼丹配方（灵石 + 灵石矿 = 突破丹药）
         // 聚气丹：下品灵石×5 + 下品灵石矿×1
         if (lowCount >= 5 && countOf(ModItems.LOW_LINGSHI_ORE_ITEM.get()) >= 1) return 3;
         // 筑基丹：中品灵石×3 + 中品灵石矿×1
         if (midCount >= 3 && countOf(ModItems.MID_LINGSHI_ORE_ITEM.get()) >= 1) return 4;
         // 结丹丹：上品灵石×2 + 上品灵石矿×1
         if (highCount >= 2 && countOf(ModItems.HIGH_LINGSHI_ORE_ITEM.get()) >= 1) return 5;
+        // 元婴丹：极品灵石×1 + 极品灵石矿×1
+        if (supremeCount >= 1 && countOf(ModItems.SUPREME_LINGSHI_ORE_ITEM.get()) >= 1) return 6;
+        // 化神丹：极品灵石×2 + 极品灵石矿×1
+        if (supremeCount >= 2 && countOf(ModItems.SUPREME_LINGSHI_ORE_ITEM.get()) >= 1) return 7;
+        // 合体丹：极品灵石×3 + 极品灵石矿×2
+        if (supremeCount >= 3 && countOf(ModItems.SUPREME_LINGSHI_ORE_ITEM.get()) >= 2) return 8;
+        // 大乘丹：极品灵石×4 + 极品灵石矿×2
+        if (supremeCount >= 4 && countOf(ModItems.SUPREME_LINGSHI_ORE_ITEM.get()) >= 2) return 9;
+        // 渡劫丹：极品灵石×5 + 极品灵石矿×3
+        if (supremeCount >= 5 && countOf(ModItems.SUPREME_LINGSHI_ORE_ITEM.get()) >= 3) return 10;
+        // 真仙丹：极品灵石×6 + 极品灵石矿×3
+        if (supremeCount >= 6 && countOf(ModItems.SUPREME_LINGSHI_ORE_ITEM.get()) >= 3) return 11;
+
+        // 灵石升级：5:1（下→中→上→极）
+        if (lowCount >= 5) return 0; // 下品 炼 中品
+        if (midCount >= 5) return 1; // 中品 炼 上品
+        if (highCount >= 5) return 2;// 上品 炼 极品
         return -1;
     }
 
@@ -242,6 +264,48 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
                 if (!consumeItems(ModItems.HIGH_LINGSHI.get(), 2)) return;
                 if (!consumeItems(ModItems.HIGH_LINGSHI_ORE_ITEM.get(), 1)) return;
                 addResult(new ItemStack(ModItems.JIEDAN_PILL.get()));
+                setChanged();
+                return;
+            }
+            case 6 -> { // 元婴丹
+                if (!consumeItems(ModItems.SUPREME_LINGSHI.get(), 1)) return;
+                if (!consumeItems(ModItems.SUPREME_LINGSHI_ORE_ITEM.get(), 1)) return;
+                addResult(new ItemStack(ModItems.YUANYING_PILL.get()));
+                setChanged();
+                return;
+            }
+            case 7 -> { // 化神丹
+                if (!consumeItems(ModItems.SUPREME_LINGSHI.get(), 2)) return;
+                if (!consumeItems(ModItems.SUPREME_LINGSHI_ORE_ITEM.get(), 1)) return;
+                addResult(new ItemStack(ModItems.HUASHEN_PILL.get()));
+                setChanged();
+                return;
+            }
+            case 8 -> { // 合体丹
+                if (!consumeItems(ModItems.SUPREME_LINGSHI.get(), 3)) return;
+                if (!consumeItems(ModItems.SUPREME_LINGSHI_ORE_ITEM.get(), 2)) return;
+                addResult(new ItemStack(ModItems.HETI_PILL.get()));
+                setChanged();
+                return;
+            }
+            case 9 -> { // 大乘丹
+                if (!consumeItems(ModItems.SUPREME_LINGSHI.get(), 4)) return;
+                if (!consumeItems(ModItems.SUPREME_LINGSHI_ORE_ITEM.get(), 2)) return;
+                addResult(new ItemStack(ModItems.DACHENG_PILL.get()));
+                setChanged();
+                return;
+            }
+            case 10 -> { // 渡劫丹
+                if (!consumeItems(ModItems.SUPREME_LINGSHI.get(), 5)) return;
+                if (!consumeItems(ModItems.SUPREME_LINGSHI_ORE_ITEM.get(), 3)) return;
+                addResult(new ItemStack(ModItems.DUJIE_PILL.get()));
+                setChanged();
+                return;
+            }
+            case 11 -> { // 真仙丹
+                if (!consumeItems(ModItems.SUPREME_LINGSHI.get(), 6)) return;
+                if (!consumeItems(ModItems.SUPREME_LINGSHI_ORE_ITEM.get(), 3)) return;
+                addResult(new ItemStack(ModItems.ZHENXIAN_PILL.get()));
                 setChanged();
                 return;
             }

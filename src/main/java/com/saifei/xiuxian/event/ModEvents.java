@@ -251,14 +251,22 @@ public class ModEvents {
 
     /**
      * 根据当前境界从玩家背包消耗对应的突破丹药，返回其成功率加成（0~1）。
-     * 聚气丹/筑基丹/结丹丹 分别对应 凡人→炼气、炼气→筑基、筑基→金丹。
+     * 聚气丹/筑基丹/结丹丹/元婴丹/化神丹/合体丹/大乘丹/渡劫丹/真仙丹
+     * 分别对应 凡人→炼气、炼气→筑基、筑基→金丹、金丹→元婴、元婴→化神、
+     * 化神→合体、合体→大乘、大乘→渡劫、渡劫→真仙。
      */
     private static double consumePillFor(Realm currentRealm, ServerPlayer player) {
         Item pill = switch (currentRealm) {
             case MORTAL -> ModItems.JUNQI_PILL.get();
             case QI_REFINING -> ModItems.ZHUJI_PILL.get();
             case FOUNDATION -> ModItems.JIEDAN_PILL.get();
-            default -> null;
+            case GOLDEN_CORE -> ModItems.YUANYING_PILL.get();
+            case YUANYING -> ModItems.HUASHEN_PILL.get();
+            case HUASHEN -> ModItems.HETI_PILL.get();
+            case HETI -> ModItems.DACHENG_PILL.get();
+            case DACHENG -> ModItems.DUJIE_PILL.get();
+            case DUJIE -> ModItems.ZHENXIAN_PILL.get();
+            default -> null; // 真仙已无更高境界
         };
         if (pill == null) return 0.0;
         for (ItemStack stack : player.getInventory().items) {
@@ -268,6 +276,12 @@ public class ModEvents {
                     case MORTAL -> 0.30;
                     case QI_REFINING -> 0.40;
                     case FOUNDATION -> 0.50;
+                    case GOLDEN_CORE -> 0.55;
+                    case YUANYING -> 0.60;
+                    case HUASHEN -> 0.65;
+                    case HETI -> 0.70;
+                    case DACHENG -> 0.75;
+                    case DUJIE -> 0.80;
                     default -> 0.0;
                 };
             }

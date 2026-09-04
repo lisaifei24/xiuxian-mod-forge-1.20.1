@@ -57,6 +57,26 @@ public class ModItems {
     public static final RegistryObject<Item> JIEDAN_PILL = ITEMS.register("jiedan_pill",
             () -> new BreakthroughPillItem(new Item.Properties(), "筑基→金丹", 150, 250, 0.50));
 
+    // ============ 第三阶段：进阶丹药链 ============
+    // 元婴丹：金丹 → 元婴，食用恢复 300~500 灵力，突破成功率 +55%
+    public static final RegistryObject<Item> YUANYING_PILL = ITEMS.register("yuanying_pill",
+            () -> new BreakthroughPillItem(new Item.Properties(), "金丹→元婴", 300, 500, 0.55));
+    // 化神丹：元婴 → 化神，食用恢复 600~1000 灵力，突破成功率 +60%
+    public static final RegistryObject<Item> HUASHEN_PILL = ITEMS.register("huashen_pill",
+            () -> new BreakthroughPillItem(new Item.Properties(), "元婴→化神", 600, 1000, 0.60));
+    // 合体丹：化神 → 合体，食用恢复 1000~1600 灵力，突破成功率 +65%
+    public static final RegistryObject<Item> HETI_PILL = ITEMS.register("heti_pill",
+            () -> new BreakthroughPillItem(new Item.Properties(), "化神→合体", 1000, 1600, 0.65));
+    // 大乘丹：合体 → 大乘，食用恢复 1600~2500 灵力，突破成功率 +70%
+    public static final RegistryObject<Item> DACHENG_PILL = ITEMS.register("dacheng_pill",
+            () -> new BreakthroughPillItem(new Item.Properties(), "合体→大乘", 1600, 2500, 0.70));
+    // 渡劫丹：大乘 → 渡劫，食用恢复 2500~4000 灵力，突破成功率 +75%
+    public static final RegistryObject<Item> DUJIE_PILL = ITEMS.register("dujie_pill",
+            () -> new BreakthroughPillItem(new Item.Properties(), "大乘→渡劫", 2500, 4000, 0.75));
+    // 真仙丹：渡劫 → 真仙，食用恢复 4000~6000 灵力，突破成功率 +80%
+    public static final RegistryObject<Item> ZHENXIAN_PILL = ITEMS.register("zhenxian_pill",
+            () -> new BreakthroughPillItem(new Item.Properties(), "渡劫→真仙", 4000, 6000, 0.80));
+
     // ==================== 第二阶段：功法卷轴 ====================
     public static final RegistryObject<Item> YUJIAN_SCROLL = ITEMS.register("yujian_scroll",
             () -> new SkillScrollItem(new Item.Properties(), SkillType.YUJIAN_SHU));
