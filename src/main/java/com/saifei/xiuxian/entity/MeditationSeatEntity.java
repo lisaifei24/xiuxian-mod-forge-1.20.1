@@ -51,6 +51,12 @@ public class MeditationSeatEntity extends Entity {
                         case QI_REFINING: maxRecovery = 50; break;
                         case FOUNDATION: maxRecovery = 100; break;
                         case GOLDEN_CORE: maxRecovery = 200; break;
+                        case YUANYING: maxRecovery = 500; break;
+                        case HUASHEN: maxRecovery = 1200; break;
+                        case HETI: maxRecovery = 3000; break;
+                        case DACHENG: maxRecovery = 7000; break;
+                        case DUJIE: maxRecovery = 15000; break;
+                        case ZHENXIAN: maxRecovery = 40000; break;
                     }
 
                     int recover = player.getRandom().nextInt(maxRecovery + 1);

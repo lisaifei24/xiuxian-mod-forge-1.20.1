@@ -37,6 +37,12 @@ public class TribulationManager {
     /** 各境界需要的天雷数量 */
     private static final int STRIKES_FOUNDATION = 5;
     private static final int STRIKES_GOLDEN_CORE = 7;
+    private static final int STRIKES_YUANYING = 9;
+    private static final int STRIKES_HUASHEN = 11;
+    private static final int STRIKES_HETI = 14;
+    private static final int STRIKES_DACHENG = 17;
+    private static final int STRIKES_DUJIE = 20;
+    private static final int STRIKES_ZHENXIAN = 24;
 
     /** <玩家UUID, 渡劫会话> */
     private static final Map<UUID, TribulationSession> SESSIONS = new HashMap<>();
@@ -68,7 +74,13 @@ public class TribulationManager {
         int strikes = switch (targetRealm) {
             case FOUNDATION -> STRIKES_FOUNDATION;
             case GOLDEN_CORE -> STRIKES_GOLDEN_CORE;
-            default -> 0; // 小境界/凡人阶段不触发天劫
+            case YUANYING -> STRIKES_YUANYING;
+            case HUASHEN -> STRIKES_HUASHEN;
+            case HETI -> STRIKES_HETI;
+            case DACHENG -> STRIKES_DACHENG;
+            case DUJIE -> STRIKES_DUJIE;
+            case ZHENXIAN -> STRIKES_ZHENXIAN;
+            default -> 0; // 炼气/凡人 阶段不触发天劫
         };
         if (strikes <= 0) {
             return false; // 该突破不触发天劫，直接由调用方晋升

@@ -5,7 +5,13 @@ public enum Realm {
     MORTAL("凡人", 50, 0, 0, 0.0),
     QI_REFINING("炼气", 100, 2, 1, 0.05),
     FOUNDATION("筑基", 500, 8, 5, 0.15),
-    GOLDEN_CORE("金丹", 2000, 20, 15, 0.30);
+    GOLDEN_CORE("金丹", 2000, 20, 15, 0.30),
+    YUANYING("元婴", 8000, 50, 40, 0.50),
+    HUASHEN("化神", 20000, 120, 90, 0.80),
+    HETI("合体", 50000, 300, 200, 1.20),
+    DACHENG("大乘", 120000, 700, 450, 1.80),
+    DUJIE("渡劫", 300000, 1500, 900, 2.50),
+    ZHENXIAN("真仙", 800000, 3500, 2000, 3.50);
 
     private final String displayName;
     private final int maxSpiritualPower;

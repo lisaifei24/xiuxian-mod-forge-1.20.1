@@ -110,6 +110,42 @@ public class ModEvents {
                 baseChance = 0.5;
                 failIncrement = 1.0 / 10.0;
                 stageKey = "foundation_to_golden";
+            } else if (currentRealm == Realm.GOLDEN_CORE) {
+                targetRealm = Realm.YUANYING;
+                guaranteedGrade = 3; // 上品
+                baseChance = 0.5;
+                failIncrement = 1.0 / 12.0;
+                stageKey = "golden_to_yuanying";
+            } else if (currentRealm == Realm.YUANYING) {
+                targetRealm = Realm.HUASHEN;
+                guaranteedGrade = 4; // 极品
+                baseChance = 0.5;
+                failIncrement = 1.0 / 14.0;
+                stageKey = "yuanying_to_huashen";
+            } else if (currentRealm == Realm.HUASHEN) {
+                targetRealm = Realm.HETI;
+                guaranteedGrade = 4; // 极品
+                baseChance = 0.5;
+                failIncrement = 1.0 / 16.0;
+                stageKey = "huashen_to_heti";
+            } else if (currentRealm == Realm.HETI) {
+                targetRealm = Realm.DACHENG;
+                guaranteedGrade = 4; // 极品
+                baseChance = 0.5;
+                failIncrement = 1.0 / 18.0;
+                stageKey = "heti_to_dacheng";
+            } else if (currentRealm == Realm.DACHENG) {
+                targetRealm = Realm.DUJIE;
+                guaranteedGrade = 4; // 极品
+                baseChance = 0.5;
+                failIncrement = 1.0 / 20.0;
+                stageKey = "dacheng_to_dujie";
+            } else if (currentRealm == Realm.DUJIE) {
+                targetRealm = Realm.ZHENXIAN;
+                guaranteedGrade = 4; // 极品
+                baseChance = 0.5;
+                failIncrement = 1.0 / 25.0;
+                stageKey = "dujie_to_zhenxian";
             }
 
             if (targetRealm == null) {
@@ -137,8 +173,11 @@ public class ModEvents {
                 return;
             }
 
-            // 大境界（炼气→筑基、筑基→金丹）突破会引动天劫
-            boolean isBigBreakthrough = (targetRealm == Realm.FOUNDATION || targetRealm == Realm.GOLDEN_CORE);
+            // 大境界突破（炼气→筑基 起，每次晋升均引动天劫；唯 凡人→炼气 不渡劫）
+            boolean isBigBreakthrough = switch (targetRealm) {
+                case FOUNDATION, GOLDEN_CORE, YUANYING, HUASHEN, HETI, DACHENG, DUJIE, ZHENXIAN -> true;
+                default -> false;
+            };
 
             CompoundTag persistentData = player.getPersistentData();
             int attempts = persistentData.getInt(stageKey);
