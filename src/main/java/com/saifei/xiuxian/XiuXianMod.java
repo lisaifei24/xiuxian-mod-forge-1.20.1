@@ -7,6 +7,7 @@ import com.saifei.xiuxian.capability.CapabilityRegistration;
 import com.saifei.xiuxian.entity.ModEntities;
 import com.saifei.xiuxian.item.ModItems;
 import com.saifei.xiuxian.menu.ModMenuTypes;
+import com.saifei.xiuxian.network.CastSkillPacket;
 import com.saifei.xiuxian.network.SyncCultivationPacket;
 import com.saifei.xiuxian.world.OreGeneration;
 import net.minecraft.core.registries.Registries;
@@ -31,7 +32,7 @@ public class XiuXianMod {
 
     private static final String PROTOCOL_VERSION = "1";
     public static final SimpleChannel NETWORK = NetworkRegistry.newSimpleChannel(
-            ResourceLocation.parse(MOD_ID + ":main"),   // ✅ 修正：必须包含路径
+            new ResourceLocation(MOD_ID + ":main"),   // 1.20.1 使用构造器（parse 为 1.21 API）
             () -> PROTOCOL_VERSION,
             PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals
@@ -61,6 +62,16 @@ public class XiuXianMod {
                         //蒲团 & 炼化炉
                         output.accept(ModBlocks.MEDITATION_MAT.get());
                         output.accept(ModBlocks.REFINING_FURNACE.get());
+
+                        //突破丹药
+                        output.accept(ModItems.JUNQI_PILL.get());
+                        output.accept(ModItems.ZHUJI_PILL.get());
+                        output.accept(ModItems.JIEDAN_PILL.get());
+
+                        //功法卷轴
+                        output.accept(ModItems.YUJIAN_SCROLL.get());
+                        output.accept(ModItems.HUOQIU_SCROLL.get());
+                        output.accept(ModItems.HUJI_SCROLL.get());
                     })
                     .build()
     );
@@ -86,6 +97,11 @@ public class XiuXianMod {
                 SyncCultivationPacket::encode,
                 SyncCultivationPacket::decode,
                 SyncCultivationPacket::handle);
+        // 第二阶段：技能释放请求包（客户端 -> 服务端）
+        NETWORK.registerMessage(packetId++, CastSkillPacket.class,
+                CastSkillPacket::encode,
+                CastSkillPacket::decode,
+                CastSkillPacket::handle);
         LOGGER.info("✅ 修仙模组网络通道初始化完成");
     }
 }

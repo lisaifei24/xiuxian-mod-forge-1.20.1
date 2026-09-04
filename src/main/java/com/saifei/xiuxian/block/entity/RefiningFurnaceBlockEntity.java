@@ -19,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -109,6 +110,9 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
                     case 0 -> level.random.nextInt(6);   // 0-5
                     case 1 -> level.random.nextInt(51);  // 0-50
                     case 2 -> level.random.nextInt(101); // 0-100
+                    case 3 -> level.random.nextInt(4);   // 聚气丹 0-3
+                    case 4 -> level.random.nextInt(11);  // 筑基丹 0-10
+                    case 5 -> level.random.nextInt(21);  // 结丹丹 0-20
                     default -> 0;
                 };
                 // 防止抽到0导致玩家觉得"没扣蓝"，强制最低消耗1点
@@ -148,10 +152,45 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
                 }
             }
         }
+        // 优先保持第一阶段功能：100:1 灵石升级
         if (lowCount >= 100) return 0; // 下品 炼 中品
         if (midCount >= 100) return 1; // 中品 炼 上品
         if (highCount >= 100) return 2;// 上品 炼 极品
+
+        // 第二阶段：炼丹配方（灵石 + 灵石矿材料 = 突破丹药）
+        // 聚气丹：下品灵石×5 + 下品灵石矿×1
+        if (lowCount >= 5 && countOf(ModItems.LOW_LINGSHI_ORE_ITEM.get()) >= 1) return 3;
+        // 筑基丹：中品灵石×3 + 中品灵石矿×1
+        if (midCount >= 3 && countOf(ModItems.MID_LINGSHI_ORE_ITEM.get()) >= 1) return 4;
+        // 结丹丹：上品灵石×2 + 上品灵石矿×1
+        if (highCount >= 2 && countOf(ModItems.HIGH_LINGSHI_ORE_ITEM.get()) >= 1) return 5;
         return -1;
+    }
+
+    /** 统计某物品在输入槽中的总数量 */
+    private int countOf(Item item) {
+        int count = 0;
+        for (ItemStack stack : inputItems) {
+            if (!stack.isEmpty() && stack.getItem() == item) {
+                count += stack.getCount();
+            }
+        }
+        return count;
+    }
+
+    /** 精准扣除输入槽中指定物品共 count 个（跨槽位），返回是否足额扣除 */
+    private boolean consumeItems(Item item, int count) {
+        int remaining = count;
+        for (int i = 0; i < inputItems.size(); i++) {
+            if (remaining <= 0) break;
+            ItemStack stack = inputItems.get(i);
+            if (!stack.isEmpty() && stack.getItem() == item) {
+                int toRemove = Math.min(stack.getCount(), remaining);
+                stack.shrink(toRemove);
+                remaining -= toRemove;
+            }
+        }
+        return remaining <= 0;
     }
 
     private boolean hasValidInput() {
@@ -165,9 +204,49 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
         return false;
     }
 
+    /** 在输出槽中添加产出 */
+    private void addResult(ItemStack result) {
+        for (int i = 0; i < outputItems.size(); i++) {
+            ItemStack stack = outputItems.get(i);
+            if (stack.isEmpty()) {
+                outputItems.set(i, result.copy());
+                return;
+            } else if (stack.getItem() == result.getItem() && stack.getCount() < stack.getMaxStackSize()) {
+                stack.grow(result.getCount());
+                return;
+            }
+        }
+    }
+
     private void refineItems() {
         int type = getCurrentRefiningType();
         if (type == -1) return;
+
+        // ---------- 第二阶段：炼丹配方（灵石 + 灵石矿 = 突破丹药） ----------
+        switch (type) {
+            case 3 -> { // 聚气丹
+                if (!consumeItems(ModItems.LOW_LINGSHI.get(), 5)) return;
+                if (!consumeItems(ModItems.LOW_LINGSHI_ORE_ITEM.get(), 1)) return;
+                addResult(new ItemStack(ModItems.JUNQI_PILL.get()));
+                setChanged();
+                return;
+            }
+            case 4 -> { // 筑基丹
+                if (!consumeItems(ModItems.MID_LINGSHI.get(), 3)) return;
+                if (!consumeItems(ModItems.MID_LINGSHI_ORE_ITEM.get(), 1)) return;
+                addResult(new ItemStack(ModItems.ZHUJI_PILL.get()));
+                setChanged();
+                return;
+            }
+            case 5 -> { // 结丹丹
+                if (!consumeItems(ModItems.HIGH_LINGSHI.get(), 2)) return;
+                if (!consumeItems(ModItems.HIGH_LINGSHI_ORE_ITEM.get(), 1)) return;
+                addResult(new ItemStack(ModItems.JIEDAN_PILL.get()));
+                setChanged();
+                return;
+            }
+            default -> { /* 走下方灵石升级逻辑 */ }
+        }
 
         ItemStack result = switch (type) {
             case 0 -> new ItemStack(ModItems.MID_LINGSHI.get());
@@ -184,30 +263,10 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
         if (result.isEmpty() || required.isEmpty()) return;
 
         // ✅ 精准跨槽位扣除 100 个灵石
-        int remaining = 100;
-        for (int i = 0; i < inputItems.size(); i++) {
-            if (remaining <= 0) break;
-            ItemStack stack = inputItems.get(i);
-            if (!stack.isEmpty() && stack.getItem() == required.getItem()) {
-                int toRemove = Math.min(stack.getCount(), remaining);
-                stack.shrink(toRemove);
-                remaining -= toRemove;
-            }
-        }
-        // 如果扣除失败（理论上不存在），安全退出
-        if (remaining > 0) return;
+        if (!consumeItems(required.getItem(), 100)) return;
 
         // 产出对应的灵石
-        for (int i = 0; i < outputItems.size(); i++) {
-            ItemStack stack = outputItems.get(i);
-            if (stack.isEmpty()) {
-                outputItems.set(i, result.copy());
-                break;
-            } else if (stack.getItem() == result.getItem() && stack.getCount() < stack.getMaxStackSize()) {
-                stack.grow(1);
-                break;
-            }
-        }
+        addResult(result);
         setChanged();
     }
 
@@ -226,12 +285,18 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
     }
 
     // ==================== NBT ====================
+    // 注意：容器内容用独立键保存，避免第一阶段“输入/输出共用默认键 Items”导致读写互相覆盖；
+    // 读取时兼容旧存档（旧存档只有 "Items" 键）。
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        ContainerHelper.saveAllItems(tag, inputItems);
-        ContainerHelper.saveAllItems(tag, outputItems);
+        CompoundTag inputTag = new CompoundTag();
+        ContainerHelper.saveAllItems(inputTag, inputItems);
+        tag.put("InputItems", inputTag);
+        CompoundTag outputTag = new CompoundTag();
+        ContainerHelper.saveAllItems(outputTag, outputItems);
+        tag.put("OutputItems", outputTag);
         tag.putInt("Progress", progress);
         if (currentPlayerUUID != null) tag.putUUID("PlayerUUID", currentPlayerUUID);
     }
@@ -239,8 +304,15 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-        ContainerHelper.loadAllItems(tag, inputItems);
-        ContainerHelper.loadAllItems(tag, outputItems);
+        if (tag.contains("InputItems")) {
+            ContainerHelper.loadAllItems(tag.getCompound("InputItems"), inputItems);
+        } else if (tag.contains("Items")) {
+            // 旧存档兜底：读取到输入槽
+            ContainerHelper.loadAllItems(tag, inputItems);
+        }
+        if (tag.contains("OutputItems")) {
+            ContainerHelper.loadAllItems(tag.getCompound("OutputItems"), outputItems);
+        }
         progress = tag.getInt("Progress");
         if (tag.contains("PlayerUUID")) currentPlayerUUID = tag.getUUID("PlayerUUID");
     }

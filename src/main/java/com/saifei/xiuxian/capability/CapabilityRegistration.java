@@ -9,9 +9,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 public class CapabilityRegistration {
 
-    // 修改：使用 ResourceLocation.parse 避免弃用警告
+    // 1.20.1 使用构造器（parse 为 1.21 API）
     public static final ResourceLocation CULTIVATION_CAP_ID =
-            ResourceLocation.parse("xiuxian:cultivation");
+            new ResourceLocation("xiuxian:cultivation");
 
     public static final Capability<ICultivation> CULTIVATION_CAPABILITY =
             CapabilityManager.get(new CapabilityToken<>() {});

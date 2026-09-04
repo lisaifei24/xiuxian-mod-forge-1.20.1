@@ -9,5 +9,14 @@
   "block.xiuxian.supreme_lingshi_ore": "极品灵石矿",
   "block.xiuxian.meditation_mat": "蒲团",
   "block.xiuxian.refining_furnace": "炼化炉",
+  "item.xiuxian.junqi_pill": "聚气丹",
+  "item.xiuxian.zhuji_pill": "筑基丹",
+  "item.xiuxian.jiedan_pill": "结丹丹",
+  "item.xiuxian.yujian_scroll": "御剑术卷轴",
+  "item.xiuxian.huoqiu_scroll": "火球术卷轴",
+  "item.xiuxian.huji_scroll": "护体金光卷轴",
+  "entity.xiuxian.fireball_projectile": "灵力火球",
+  "key.categories.xiuxian": "修仙模组",
+  "key.xiuxian.cast_skill": "释放功法（R）",
   "creativetab.xiuxian_tab": "修仙模组"
 }

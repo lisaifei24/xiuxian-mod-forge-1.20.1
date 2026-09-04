@@ -17,4 +17,13 @@ public class ModEntities {
                     .setTrackingRange(64) // ✅【关键修复】必须大于 0，否则客户端收不到实体！
                     .setUpdateInterval(20) // 每 20 tick 同步一次
                     .build("meditation_seat"));
+
+    // 第二阶段：火球术抛射物实体
+    public static final RegistryObject<EntityType<FireballProjectile>> FIREBALL_PROJECTILE =
+            ENTITIES.register("fireball_projectile", () -> EntityType.Builder.<FireballProjectile>of(
+                    (type, level) -> new FireballProjectile(type, level), MobCategory.MISC)
+                    .sized(0.4f, 0.4f)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(2)
+                    .build("fireball_projectile"));
 }
