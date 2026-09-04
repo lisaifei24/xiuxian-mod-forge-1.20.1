@@ -332,12 +332,12 @@ public class ModEvents {
         return false;
     }
 
-    // ========== 流浪商人：1:100兑换 ==========
+    // ========== 流浪商人：5:1兑换 ==========
     @SubscribeEvent
     public static void onWanderingTraderTrades(WandererTradesEvent event) {
-        // 下品 -> 中品 (1:100 兑换)
+        // 下品 -> 中品 (5:1 兑换)
         event.getGenericTrades().add((trader, rand) -> new MerchantOffer(
-                new ItemStack(ModItems.LOW_LINGSHI.get(), 100), // 花费100下品
+                new ItemStack(ModItems.LOW_LINGSHI.get(), 5), // 花费5下品
                 new ItemStack(ModItems.MID_LINGSHI.get(), 1),    // 得到1中品
                 12, 5, 0.05f // 使用12次，给5经验
         ));

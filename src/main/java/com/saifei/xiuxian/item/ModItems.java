@@ -12,19 +12,19 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, XiuXianMod.MOD_ID);
 
-    // --- 四品灵石 ---
-    // 下品：恢复 1 ~ 5 点
+    // --- 四品灵石：功能分工（下品=灵力补剂/中品=低阶突破媒介/上品=炼丹炼化材料/极品=渡劫护体+顶级突破保底） ---
+    // 下品：基础灵力补剂（5%），量大易得，蕴含灵力少
     public static final RegistryObject<Item> LOW_LINGSHI = ITEMS.register("low_lingshi",
-            () -> new LingShiItem(new Item.Properties(), 1, 5));
-    // 中品：恢复 10 ~ 20 点
+            () -> new LingShiItem(new Item.Properties(), 5, "基础灵力补剂，量大易得，蕴含灵力少"));
+    // 中品：低阶突破媒介（10%）
     public static final RegistryObject<Item> MID_LINGSHI = ITEMS.register("mid_lingshi",
-            () -> new LingShiItem(new Item.Properties(), 10, 20));
-    // 上品：恢复 30 ~ 50 点
+            () -> new LingShiItem(new Item.Properties(), 10, "低阶突破媒介：凡人→炼气、炼气→筑基 突破保底"));
+    // 上品：炼丹炼化核心材料（20%）
     public static final RegistryObject<Item> HIGH_LINGSHI = ITEMS.register("high_lingshi",
-            () -> new LingShiItem(new Item.Properties(), 30, 50));
-    // 极品：恢复 80 ~ 120 点
+            () -> new LingShiItem(new Item.Properties(), 20, "炼丹与炼化核心材料"));
+    // 极品：渡劫护体（40%）
     public static final RegistryObject<Item> SUPREME_LINGSHI = ITEMS.register("supreme_lingshi",
-            () -> new LingShiItem(new Item.Properties(), 80, 120));
+            () -> new LingShiItem(new Item.Properties(), 40, "渡劫护体：可抵消一道天雷；元婴及以上突破保底"));
 
     // --- 四品灵石矿石的方块物品 ---
     public static final RegistryObject<Item> LOW_LINGSHI_ORE_ITEM = ITEMS.register("low_lingshi_ore",
@@ -44,7 +44,7 @@ public class ModItems {
     // --- 炼化炉的 ---
     public static final RegistryObject<Item> REFINING_FURNACE_ITEM = ITEMS.register("refining_furnace",
             () -> new TooltipBlockItem(ModBlocks.REFINING_FURNACE.get(), new Item.Properties(),
-                    "用于炼化合成：100:1 灵石升阶，灵石+灵石矿可炼制突破丹药"));
+                    "用于炼化合成：5:1 灵石升阶（下→中→上→极）；灵石+灵石矿可炼制突破丹药"));
 
     // ==================== 第二阶段：突破丹药 ====================
     // 聚气丹：凡人 → 炼气，食用恢复 20~40 灵力，突破成功率 +30%

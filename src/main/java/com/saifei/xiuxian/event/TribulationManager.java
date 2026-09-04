@@ -4,6 +4,7 @@ import com.saifei.xiuxian.XiuXianMod;
 import com.saifei.xiuxian.capability.CapabilityRegistration;
 import com.saifei.xiuxian.capability.ICultivation;
 import com.saifei.xiuxian.capability.Realm;
+import com.saifei.xiuxian.item.ModItems;
 import com.saifei.xiuxian.network.SyncCultivationPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -14,6 +15,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.PacketDistributor;
 
 import java.util.HashMap;
@@ -135,23 +137,39 @@ public class TribulationManager {
 
         boolean hit = player.getRandom().nextDouble() < 0.70;
         if (hit) {
-            BlockPos pos = player.blockPosition();
-            LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(level);
-            if (bolt != null) {
-                bolt.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-                bolt.setVisualOnly(false); // 真实伤害
-                level.addFreshEntity(bolt);
-                level.sendParticles(ParticleTypes.ELECTRIC_SPARK,
-                        pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5,
-                        20, 0.5, 0.5, 0.5, 0.1);
-            }
-            if (player.isAlive()) {
-                player.sendSystemMessage(Component.literal("§e天雷击中了你！好在灵力护体，撑过了这一道！"));
+            // 【极品灵石渡劫护体】：命中时若背包持有极品灵石，自动消耗1颗抵消该道天雷（不击落闪电、不掉血）
+            if (consumeSupremeLingShi(player)) {
+                player.sendSystemMessage(Component.literal("§b极品灵石护体，抵消了一道天雷！"));
+            } else {
+                BlockPos pos = player.blockPosition();
+                LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(level);
+                if (bolt != null) {
+                    bolt.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+                    bolt.setVisualOnly(false); // 真实伤害
+                    level.addFreshEntity(bolt);
+                    level.sendParticles(ParticleTypes.ELECTRIC_SPARK,
+                            pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5,
+                            20, 0.5, 0.5, 0.5, 0.1);
+                }
+                if (player.isAlive()) {
+                    player.sendSystemMessage(Component.literal("§e天雷击中了你！好在灵力护体，撑过了这一道！"));
+                }
             }
         } else {
             level.playSound(null, player.blockPosition(), SoundEvents.LIGHTNING_BOLT_THUNDER, SoundSource.WEATHER, 1.0F, 1.0F);
             player.sendSystemMessage(Component.literal("§a这一道天雷劈偏了，你险险避开！"));
         }
+    }
+
+    /** 从玩家背包任意槽位消耗 1 颗极品灵石（渡劫护体），成功则返回 true */
+    private static boolean consumeSupremeLingShi(ServerPlayer player) {
+        for (ItemStack stack : player.getInventory().items) {
+            if (!stack.isEmpty() && stack.getItem() == ModItems.SUPREME_LINGSHI.get()) {
+                stack.shrink(1);
+                return true;
+            }
+        }
+        return false;
     }
 
     /** 渡劫成功：晋升境界、重新充满灵力并同步 */

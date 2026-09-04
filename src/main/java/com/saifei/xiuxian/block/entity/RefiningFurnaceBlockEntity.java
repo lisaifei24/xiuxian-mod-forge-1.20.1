@@ -87,7 +87,7 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
         };
     }
 
-    // ==================== 1:100 核心炼化逻辑 ====================
+    // ==================== 5:1 核心炼化逻辑 ====================
 
     public static void tick(Level level, BlockPos pos, BlockState state, RefiningFurnaceBlockEntity be) {
         if (level.isClientSide) return;
@@ -97,7 +97,7 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
         ServerPlayer player = level.getServer().getPlayerList().getPlayer(be.currentPlayerUUID);
         if (player == null) { be.currentPlayerUUID = null; be.progress = 0; return; }
 
-        // 检查是否符合 1:100 比例 (100个同阶灵石) 并且有空间产出
+        // 检查是否符合 5:1 比例 (5个同阶灵石) 并且有空间产出
         if (!be.hasValidInput() || !be.hasSpaceForOutput()) {
             be.progress = 0;
             return;
@@ -152,10 +152,10 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
                 }
             }
         }
-        // 优先保持第一阶段功能：100:1 灵石升级
-        if (lowCount >= 100) return 0; // 下品 炼 中品
-        if (midCount >= 100) return 1; // 中品 炼 上品
-        if (highCount >= 100) return 2;// 上品 炼 极品
+        // 灵石升级：5:1（下→中→上→极）
+        if (lowCount >= 5) return 0; // 下品 炼 中品
+        if (midCount >= 5) return 1; // 中品 炼 上品
+        if (highCount >= 5) return 2;// 上品 炼 极品
 
         // 第二阶段：炼丹配方（灵石 + 灵石矿材料 = 突破丹药）
         // 聚气丹：下品灵石×5 + 下品灵石矿×1
@@ -262,8 +262,8 @@ public class RefiningFurnaceBlockEntity extends BlockEntity implements MenuProvi
         };
         if (result.isEmpty() || required.isEmpty()) return;
 
-        // ✅ 精准跨槽位扣除 100 个灵石
-        if (!consumeItems(required.getItem(), 100)) return;
+        // ✅ 精准跨槽位扣除 5 个灵石
+        if (!consumeItems(required.getItem(), 5)) return;
 
         // 产出对应的灵石
         addResult(result);

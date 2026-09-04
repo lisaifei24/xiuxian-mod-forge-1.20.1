@@ -19,13 +19,13 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class LingShiItem extends Item {
-    private final int minRecovery;
-    private final int maxRecovery;
+    private final int percent;
+    private final String functionDesc;
 
-    public LingShiItem(Properties properties, int minRecovery, int maxRecovery) {
+    public LingShiItem(Properties properties, int percent, String functionDesc) {
         super(properties.food(new FoodProperties.Builder().alwaysEat().nutrition(0).saturationMod(0).build()));
-        this.minRecovery = minRecovery;
-        this.maxRecovery = maxRecovery;
+        this.percent = percent;
+        this.functionDesc = functionDesc;
     }
 
     // ✅【新增】让灵石拥有和食物一样的“长按并出现进度条”动画
@@ -42,11 +42,9 @@ public class LingShiItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("§7食用可恢复 " + minRecovery + " ~ " + maxRecovery + " 点灵力").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.literal("§7食用可恢复当前灵力上限的 " + percent + "%").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.literal("§7" + functionDesc).withStyle(ChatFormatting.GRAY));
         tooltip.add(Component.literal("§7长按食用后可用于尝试突破境界（任意品级灵石均可突破）").withStyle(ChatFormatting.GRAY));
-        if (minRecovery < 10) {
-            tooltip.add(Component.literal("§7品级越低蕴含灵力越少，突破成功的把握也越低").withStyle(ChatFormatting.GRAY));
-        }
         super.appendHoverText(stack, level, tooltip, flag);
     }
 
@@ -54,7 +52,8 @@ public class LingShiItem extends Item {
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
         if (!level.isClientSide && entity instanceof ServerPlayer player) {
             player.getCapability(CapabilityRegistration.CULTIVATION_CAPABILITY).ifPresent(cap -> {
-                int recover = level.random.nextInt(maxRecovery - minRecovery + 1) + minRecovery;
+                int recover = cap.getMaxSpiritualPower() * percent / 100;
+                if (recover < 1) recover = 1;
                 cap.addSpiritualPower(recover);
 
                 XiuXianMod.LOGGER.info("玩家 {} 食用了 {}，恢复了 {} 点灵力", player.getName().getString(), stack.getHoverName().getString(), recover);
